@@ -64,6 +64,7 @@ namespace Papercut.Core.Infrastructure.Logging
                         try
                         {
                             c.Resolve<IMessageBus>().Publish(new ConfigureLoggerEvent(logConfiguration));
+                            // it3xl.com: You can check here in logConfiguration._logEventSinks what logging sinks are using.
                         }
                         catch (Exception ex)
                         {
@@ -71,7 +72,12 @@ namespace Papercut.Core.Infrastructure.Logging
                         }
 
                         // support self-logging
-                        SelfLog.Enable(s => Console.Error.WriteLine(s));
+                        SelfLog.Enable(s =>
+                        {
+                            // You can comment out the following line to disables error spamming when the Papercut service started without the client.
+                            // It is usefull when Serilog.Sinks.Seq.SeqSink is implicitly connected by Papercut.Module.Seq.
+                            Console.Error.WriteLine(s);
+                        });
 
                         return logConfiguration;
                     })

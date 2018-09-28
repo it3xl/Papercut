@@ -31,7 +31,11 @@ namespace Papercut.Module.Seq
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<AddSeqToConfiguration>().AsImplementedInterfaces();
+
+            // The following line is commented out becuase it implicetly adds Serilog.Sinks.Seq.SeqSink to the logging chain.
+            // This results in an error spam when we use SelfLog.Enable(...).
+            // it3xl.com: And don't forget to rebuild this project and to clean the solution! Otherwise it may persist.
+            //builder.RegisterType<AddSeqToConfiguration>().AsImplementedInterfaces();
 
             base.Load(builder);
         }
