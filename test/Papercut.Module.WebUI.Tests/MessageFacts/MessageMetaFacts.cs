@@ -109,7 +109,7 @@ namespace Papercut.Module.WebUI.Test.MessageFacts
                     }
                 });
 
-            return this._messageRepository.SaveMessage(existedMail.Subject, fs => existedMail.WriteTo(fs));
+            return this._messageRepository.SaveMessage(existedMail, fs => existedMail.WriteTo(fs));
         }
 
         class MessageListResponse

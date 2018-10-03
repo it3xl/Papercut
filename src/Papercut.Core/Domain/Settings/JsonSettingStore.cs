@@ -15,6 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 namespace Papercut.Core.Domain.Settings
 {
     using System;
@@ -32,10 +33,17 @@ namespace Papercut.Core.Domain.Settings
             this.SettingsFilePath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 $"{appMeta.AppName}.json");
+
+            LoadOnInit();
         }
 
         protected string SettingsFilePath { get; set; }
-        
+
+        private void LoadOnInit()
+        {
+            Load();
+        }
+
         public override void Load()
         {
             if (this.SettingsFilePath == null) return;
@@ -47,7 +55,8 @@ namespace Papercut.Core.Domain.Settings
         {
             if (this.SettingsFilePath == null) return;
 
-            JsonHelpers.SaveJson(new SortedDictionary<string, string>(this.GetSettingSnapshot()), this.SettingsFilePath);
+            JsonHelpers.SaveJson(new SortedDictionary<string, string>(this.GetSettingSnapshot()),
+                this.SettingsFilePath);
         }
     }
 }

@@ -26,6 +26,8 @@ namespace Papercut.Core.Infrastructure.Logging
 
     using AutofacSerilogIntegration;
 
+    using Domain.Settings;
+
     using Papercut.Common.Domain;
     using Papercut.Core.Domain.Application;
 
@@ -39,19 +41,25 @@ namespace Papercut.Core.Infrastructure.Logging
             builder.Register(
                     c =>
                     {
+                        var settingStore = c.Resolve<ISettingStore>();
+
                         var appMeta = c.Resolve<IAppMeta>();
 
-                        string logFilePath = Path.Combine(
-                            AppDomain.CurrentDomain.BaseDirectory,
-                            "Logs",
-                            $"{appMeta.AppName}.log");
+                        var logPath = settingStore.GetOrSet<string>("LogPath", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs"), "Path to store log files.");
+                        var port = settingStore.GetOrSet("Port", 25, "SMTP Server listening Port. Default is 25.");
 
-                        LoggerConfiguration logConfiguration =
+                        string logFilePath = Path.Combine(
+                            //AppDomain.CurrentDomain.BaseDirectory,
+                            //"Logs",
+                            logPath,
+                            $"{appMeta.AppName}.port{port}.log");
+
+                        var logConfiguration =
                             new LoggerConfiguration()
 #if DEBUG
                                 .MinimumLevel.Verbose()
 #else
-                         .MinimumLevel.Information()
+                                .MinimumLevel.Information()
 #endif
                                 .Enrich.With<EnvironmentEnricher>()
                                 .Enrich.FromLogContext()
@@ -60,7 +68,7 @@ namespace Papercut.Core.Infrastructure.Logging
                                 .WriteTo.LiterateConsole()
                                 .WriteTo.RollingFile(logFilePath);
 
-                        // publish event so additional sinks, enrichers, etc can be added before logger creation is finalized.
+                        // publish event so additional sinks, enriches, etc can be added before logger creation is finalized.
                         try
                         {
                             c.Resolve<IMessageBus>().Publish(new ConfigureLoggerEvent(logConfiguration));
@@ -75,7 +83,7 @@ namespace Papercut.Core.Infrastructure.Logging
                         SelfLog.Enable(s =>
                         {
                             // You can comment out the following line to disables error spamming when the Papercut service started without the client.
-                            // It is usefull when Serilog.Sinks.Seq.SeqSink is implicitly connected by Papercut.Module.Seq.
+                            // It is useful when Serilog.Sinks.Seq.SeqSink is implicitly connected by Papercut.Module.Seq.
                             Console.Error.WriteLine(s);
                         });
 

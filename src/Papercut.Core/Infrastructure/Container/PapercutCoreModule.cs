@@ -43,6 +43,38 @@ namespace Papercut.Core.Infrastructure.Container
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<JsonSettingStore>()
+                .As<ISettingStore>()
+                .OnActivated(
+                    j =>
+                    {
+                        try
+                        {
+                            // The following line introduces a bug that settings is empty because it is too late to use it here.
+                            //j.Instance.Load();
+                        }
+                        catch
+                        {
+                        }
+                    })
+                .OnRelease(
+                    j =>
+                    {
+                        try
+                        {
+                            // The following code is commented out because:
+                            // We do not want killing of formatting in the settings file.
+                            // There is a bug when modified settings will be overrwrited by default values.
+                            // We no not use UI settngs management.
+                            //j.Save();
+                        }
+                        catch
+                        {
+                        }
+                    })
+                .AsSelf()
+                .SingleInstance();
+
             new RegisterLogger().Register(builder);
             new RegisterPlugins(Log.Logger).Register(builder, PapercutContainer.ExtensionAssemblies);
 
@@ -64,33 +96,6 @@ namespace Papercut.Core.Infrastructure.Container
 
             builder.RegisterType<MessagePathConfigurator>()
                 .As<IMessagePathConfigurator>()
-                .AsSelf()
-                .SingleInstance();
-
-            builder.RegisterType<JsonSettingStore>()
-                .As<ISettingStore>()
-                .OnActivated(
-                    j =>
-                    {
-                        try
-                        {
-                            j.Instance.Load();
-                        }
-                        catch
-                        {
-                        }
-                    })
-                .OnRelease(
-                    j =>
-                    {
-                        try
-                        {
-                            j.Save();
-                        }
-                        catch
-                        {
-                        }
-                    })
                 .AsSelf()
                 .SingleInstance();
         }

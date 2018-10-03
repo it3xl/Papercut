@@ -114,19 +114,23 @@ namespace Papercut.Message
                     .ToList();
         }
 
-        public string SaveMessage(string mailSubject, Action<FileStream> writeTo)
+        public string SaveMessage(MimeMessage message, Action<FileStream> writeTo)
         {
             string fileName = null;
 
             try
             {
-                var cuttedPart = new string(mailSubject.Take(40).ToArray());
+                var cuttedPart = new string(message.Subject.Take(40).ToArray());
                 var validPart = MakeValidFileName(cuttedPart, "subject unknown");
+
+                var subfolder = MakeValidFileName(message.Sender?.Address, string.Empty);
 
                 var dateTimeFormatted = DateTime.Now.ToString(MessageEntry.DateTimeFormat);
 
                 // the file must not exists.  the resolution of DataTime.Now may be slow w.r.t. the speed of the received files
-                fileName = Path.Combine(_messagePathConfigurator.DefaultSavePath,
+                fileName = Path.Combine(
+                    _messagePathConfigurator.DefaultSavePath,
+                    subfolder,
                     $"{dateTimeFormatted} {validPart} {StringHelpers.SmallRandomString()}.eml");
 
                 using (var fileStream = File.Create(fileName))
