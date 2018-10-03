@@ -32,7 +32,7 @@ namespace Papercut.Core.Domain.Message
     public class MessageEntry : INotifyPropertyChanged, IEquatable<MessageEntry>, IFile
     {
         // You can start by using another timestamp format. An example below.
-        public const string DateTimeFormat = "yy.MMdd-HH.mm.ssfff";
+        public const string DateTimeFormat = "yy.MM.dd-HHmm-ss-fff";
         // Bug. It is sucks to use FFF instead of fff.
         // I.e. for 170ms we will get the string 17 and we will be forced to use RegEx dirty coding.
         //public const string DateTimeFormat = "yyyyMMddHHmmssFFF";
