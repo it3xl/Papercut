@@ -89,24 +89,24 @@ namespace Papercut.Service.Services
             this._messageBus.Publish(
                 new PapercutServicePreStartEvent { AppMeta = _applicationMetaData });
 
-            _papercutServer.BindObservable(
-                PapercutClient.Localhost,
-                PapercutClient.ServerPort,
-                TaskPoolScheduler.Default)
-                .DelaySubscription(TimeSpan.FromSeconds(1)).Retry(5)
-                .Subscribe(
-                    (u) =>
-                    {
-                        /* next is not used */
-                    },
-                    (e) =>
-                    _logger.Warning(
-                        e,
-                        "Unable to Create Papercut Server Listener on {IP}:{Port}. After 5 Retries. Failing",
-                        PapercutClient.Localhost,
-                        PapercutClient.ServerPort),
-                    // on complete
-                    () => { });
+            //_papercutServer.BindObservable(
+            //    PapercutClient.Localhost,
+            //    PapercutClient.ServerPort,
+            //    TaskPoolScheduler.Default)
+            //    .DelaySubscription(TimeSpan.FromSeconds(1)).Retry(5)
+            //    .Subscribe(
+            //        (u) =>
+            //        {
+            //            /* next is not used */
+            //        },
+            //        (e) =>
+            //        _logger.Warning(
+            //            e,
+            //            "Unable to Create Papercut Server Listener on {IP}:{Port}. After 5 Retries. Failing",
+            //            PapercutClient.Localhost,
+            //            PapercutClient.ServerPort),
+            //        // on complete
+            //        () => { });
 
             _smtpServer.BindObservable(_serviceSettings.IP,_serviceSettings.Port, TaskPoolScheduler.Default)
                 .DelaySubscription(TimeSpan.FromSeconds(1)).Retry(5)

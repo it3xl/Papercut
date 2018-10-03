@@ -105,10 +105,10 @@
 xcopy $(TargetDir)*.pdb $(SolutionDir)\src\bin\$(ConfigurationName)  /Y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>mkdir $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins
-copy $(ProjectDir)$(OutDir)$(AssemblyName).dll $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins\$(AssemblyName).dll
-copy $(ProjectDir)$(OutDir)$(AssemblyName).dll.config $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins\$(AssemblyName).dll.config
-copy $(ProjectDir)$(OutDir)$(AssemblyName).pdb $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins\$(AssemblyName).pdb
+    <PostBuildEvent>REM mkdir $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins
+REM copy $(ProjectDir)$(OutDir)$(AssemblyName).dll $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins\$(AssemblyName).dll
+REM copy $(ProjectDir)$(OutDir)$(AssemblyName).dll.config $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins\$(AssemblyName).dll.config
+REM copy $(ProjectDir)$(OutDir)$(AssemblyName).pdb $(ProjectDir)..\Papercut.Service\bin\$(Configuration)\plugins\$(AssemblyName).pdb
 
 mkdir $(ProjectDir)..\Papercut.UI\bin\$(Configuration)\plugins
 copy $(ProjectDir)$(OutDir)$(AssemblyName).dll $(ProjectDir)..\Papercut.UI\bin\$(Configuration)\plugins\$(AssemblyName).dll
