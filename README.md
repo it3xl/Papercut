@@ -19,3 +19,8 @@ This version of Papercut is used only as a Windows service or as many Windows se
 * Configuring of log files root folder.
 * New log file format Papercut.Service.SMTPport-YYYYMMdd.log
 * Saved email .eml files have the format YY.MMdd-HH.mm.ssfff Subject_first_letters random.eml
+
+## How To Use
+I'm committing it now.
+Wait a sec. 
+OK, possibly 86 400 sec.
