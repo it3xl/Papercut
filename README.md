@@ -14,5 +14,5 @@ This version of Papercut is used only as a Windows service or many Windows servi
 * Using of subfolders for storing messages. The subfolders are created from mail Sender address (if not empty).
 * Configuring of log files root folder.
 * New log file format Papercut.Service.port25250-YYYYMMdd.log
-* Saved email .eml files have the format YY.MMdd-HH.mm.ssfff Subject_first_40_letters random.eml
+* Saved email .eml files have the format YY.MMdd-HH.mm.ssfff Subject_first_letters random.eml
 

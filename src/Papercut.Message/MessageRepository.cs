@@ -37,6 +37,8 @@ namespace Papercut.Message
     {
         public const string MessageFileSearchPattern = "*.eml";
 
+        public const int SubjectFileNamePartLength = 60;
+
         private static readonly object SubfolderLocke = new object();
 
         private static readonly List<string> ExistingSubfolders = new List<string>();
@@ -142,7 +144,7 @@ namespace Papercut.Message
 
             try
             {
-                var cuttedPart = new string(message.Subject.Take(40).ToArray());
+                var cuttedPart = new string(message.Subject.Take(SubjectFileNamePartLength).ToArray());
                 var validPart = MakeValidFileName(cuttedPart, "subject unknown");
 
                 var subfolder = MakeValidFileName(message.Sender?.Address, string.Empty);
