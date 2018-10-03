@@ -1,4 +1,8 @@
-## This is a hacked (not cracked) version of 
+## It is everything you need to forget about Microsoft Exchange on you development and test environments.
+* See all sent by you application messages as .eml files in subfolders.
+* Open them in Microsoft Outlook as saved earlier email messages.
+
+### This is a hacked (not cracked) version of 
 ![Papercut Logo](https://raw.githubusercontent.com/ChangemakerStudios/Papercut/develop/graphics/PapercutLogo.png)
 The Simple SMTP Desktop Email Receiver
 
@@ -7,12 +11,11 @@ The Simple SMTP Desktop Email Receiver
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/Jaben)
 
 ## Only service usage
-This version of Papercut is used only as a Windows service or many Windows services on the same machine.
+This version of Papercut is used only as a Windows service or as many Windows services on the same machine.
 
 ## Features
 * Saving of email massages to a configured folder.
 * Using of subfolders for storing messages. The subfolders are created from mail Sender address (if not empty).
 * Configuring of log files root folder.
-* New log file format Papercut.Service.port25250-YYYYMMdd.log
+* New log file format Papercut.Service.SMTPport-YYYYMMdd.log
 * Saved email .eml files have the format YY.MMdd-HH.mm.ssfff Subject_first_letters random.eml
-
