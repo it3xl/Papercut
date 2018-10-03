@@ -37,6 +37,10 @@ namespace Papercut.Message
     {
         public const string MessageFileSearchPattern = "*.eml";
 
+        private static readonly object SubfolderLocke = new object();
+
+        private static readonly List<string> ExistingSubfolders = new List<string>();
+
         readonly ILogger _logger;
 
         readonly IMessagePathConfigurator _messagePathConfigurator;
@@ -114,6 +118,24 @@ namespace Papercut.Message
                     .ToList();
         }
 
+        public void CreateDirectory(string directoryPath)
+        {
+            if (string.IsNullOrEmpty(directoryPath))
+                return;
+
+            var lower = directoryPath.ToLower();
+
+            lock (SubfolderLocke)
+            {
+                if (ExistingSubfolders.Contains(lower))
+                    return;
+
+                ExistingSubfolders.Add(lower);
+                Directory.CreateDirectory(directoryPath);
+            }
+
+        }
+
         public string SaveMessage(MimeMessage message, Action<FileStream> writeTo)
         {
             string fileName = null;
@@ -124,13 +146,16 @@ namespace Papercut.Message
                 var validPart = MakeValidFileName(cuttedPart, "subject unknown");
 
                 var subfolder = MakeValidFileName(message.Sender?.Address, string.Empty);
+                var subfolderPath = Path.Combine(
+                    _messagePathConfigurator.DefaultSavePath,
+                    subfolder);
+                CreateDirectory(subfolderPath);
 
                 var dateTimeFormatted = DateTime.Now.ToString(MessageEntry.DateTimeFormat);
 
                 // the file must not exists.  the resolution of DataTime.Now may be slow w.r.t. the speed of the received files
                 fileName = Path.Combine(
-                    _messagePathConfigurator.DefaultSavePath,
-                    subfolder,
+                    subfolderPath,
                     $"{dateTimeFormatted} {validPart} {StringHelpers.SmallRandomString()}.eml");
 
                 using (var fileStream = File.Create(fileName))
