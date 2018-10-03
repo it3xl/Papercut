@@ -9,7 +9,7 @@
     //"MessagePath": "C:\\!00\\Papercut_catched_messages",
 
     "LogPath_Description": "## Path to store log files.",
-    //"LogPath": "C:\\logs"
+    //"LogPath": "C:\\logs",
 
     "dummy_ending_setting": "## Some dummy settings at the end of the settings JSON-file."
 }
