@@ -62,9 +62,10 @@ namespace Papercut.Service
 
             x.RunAsLocalSystem();
 
-            x.SetDescription("Papercut SMTP Backend Service");
-            x.SetDisplayName("Papercut SMTP Service");
-            x.SetServiceName("PapercutServerService");
+            // We will set this values through Command Line Interface https://topshelf.readthedocs.io/en/latest/overview/commandline.html
+            //x.SetDescription("Papercut SMTP Backend Service");
+            //x.SetDisplayName("Papercut SMTP Service");
+            //x.SetServiceName("PapercutServerService");
         }
     }
 }
