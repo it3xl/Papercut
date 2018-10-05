@@ -6,7 +6,7 @@
     "Port": "25250",
 
     "MessagePath_Description": "## Path to store email message files.",
-    //"MessagePath": "C:\\!00\\Papercut_catched_messages",
+    //"MessagePath": "C:\\Papercut_catched_messages",
 
     "LogPath_Description": "## Path to store log files.",
     //"LogPath": "C:\\logs",
