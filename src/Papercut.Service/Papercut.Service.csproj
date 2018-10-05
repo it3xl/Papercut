@@ -208,7 +208,9 @@
   <Import Project="..\..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('..\..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
   <Import Project="..\..\packages\Fody.2.4.6\build\Fody.targets" Condition="Exists('..\..\packages\Fody.2.4.6\build\Fody.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY  "$(ProjectDir)$(OutDir)*"  "$(ProjectDir).deploy\"  /I /Y /Q /E
+    <PostBuildEvent>RD /S /Q "$(ProjectDir).deploy\"
+
+XCOPY  "$(ProjectDir)$(OutDir)*"  "$(ProjectDir).deploy\"  /I /Y /Q /E
 
 RD /S /Q "$(ProjectDir).deploy\logs"</PostBuildEvent>
   </PropertyGroup>
