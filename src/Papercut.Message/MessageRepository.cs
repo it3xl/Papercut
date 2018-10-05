@@ -39,8 +39,6 @@ namespace Papercut.Message
 
         public const int SubjectFileNamePartLength = 60;
 
-        private static readonly object SubfolderLocke = new object();
-
         private static readonly List<string> ExistingSubfolders = new List<string>();
 
         readonly ILogger _logger;
@@ -127,15 +125,18 @@ namespace Papercut.Message
 
             var lower = directoryPath.ToLower();
 
-            lock (SubfolderLocke)
+            // ReSharper disable once InconsistentlySynchronizedField
+            if (ExistingSubfolders.Contains(lower))
+                return;
+
+            lock (ExistingSubfolders)
             {
                 if (ExistingSubfolders.Contains(lower))
                     return;
 
-                ExistingSubfolders.Add(lower);
                 Directory.CreateDirectory(directoryPath);
+                ExistingSubfolders.Add(lower);
             }
-
         }
 
         public string SaveMessage(MimeMessage message, Action<FileStream> writeTo)
