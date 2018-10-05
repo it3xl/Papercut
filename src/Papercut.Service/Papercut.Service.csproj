@@ -142,6 +142,7 @@
     <None Include="Papercut.Service.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
