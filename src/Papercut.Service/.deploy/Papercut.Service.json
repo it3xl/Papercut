@@ -1,0 +1,15 @@
+﻿{
+    "IP_Description": "## SMTP Server listening IP. 'Any' is the default and it means '0.0.0.0'.",
+    "IP": "Any",
+
+    "Port_Description": "## SMTP Server listening Port. Default is 25.",
+    "Port": "25250",
+
+    "MessagePath_Description": "## Path to store email message files.",
+    //"MessagePath": "C:\\Papercut_catched_messages",
+
+    "LogPath_Description": "## Path to store log files.",
+    //"LogPath": "C:\\logs",
+
+    "dummy_ending_setting": "## Some dummy settings at the end of the settings JSON-file."
+}
