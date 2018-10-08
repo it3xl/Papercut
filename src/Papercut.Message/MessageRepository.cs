@@ -145,21 +145,32 @@ namespace Papercut.Message
 
             try
             {
-                var cuttedPart = new string(message.Subject.Take(SubjectFileNamePartLength).ToArray());
-                var validPart = MakeValidFileName(cuttedPart, "subject unknown");
+                var subjectCutPart = new string(message.Subject.Take(SubjectFileNamePartLength).ToArray());
+                var subjectValidPart = MakeValidFileName(subjectCutPart, "subject unknown");
 
-                var subfolder = MakeValidFileName(message.Sender?.Address, string.Empty);
-                var subfolderPath = Path.Combine(
-                    _messagePathConfigurator.DefaultSavePath,
-                    subfolder);
-                CreateDirectory(subfolderPath);
+                var mailHostPath = _messagePathConfigurator.DefaultSavePath;
+
+                var subjectSubfolder = MakeValidFileName(message.Sender?.Address, string.Empty);
+                var subjectSubfolderPath = Path.Combine(
+                    mailHostPath,
+                    subjectSubfolder);
+                CreateDirectory(subjectSubfolderPath);
+                mailHostPath = subjectSubfolderPath;
+
+                var originalEnvelopeIdHeader = message.Headers["Original-Envelope-ID"];
+                var envelopeIdSubfolder = MakeValidFileName(originalEnvelopeIdHeader, string.Empty);
+                var envelopeIdSubfolderPath = Path.Combine(
+                    mailHostPath,
+                    envelopeIdSubfolder);
+                CreateDirectory(envelopeIdSubfolderPath);
+                mailHostPath = envelopeIdSubfolderPath;
 
                 var dateTimeFormatted = DateTime.Now.ToString(MessageEntry.DateTimeFormat);
 
                 // the file must not exists.  the resolution of DataTime.Now may be slow w.r.t. the speed of the received files
                 fileName = Path.Combine(
-                    subfolderPath,
-                    $"{dateTimeFormatted} {validPart} {StringHelpers.SmallRandomString()}.eml");
+                    mailHostPath,
+                    $"{dateTimeFormatted} {subjectValidPart} {StringHelpers.SmallRandomString()}.eml");
 
                 using (var fileStream = File.Create(fileName))
                 {
