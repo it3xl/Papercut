@@ -69,7 +69,7 @@ namespace Papercut.Service.Services
 
         public void Handle(NewMessageEvent @event)
         {
-            _logger.Information(
+            _logger.Debug(
                 "New Message {MessageFile} Arrived -- Running Rules",
                 @event.NewMessage);
 
