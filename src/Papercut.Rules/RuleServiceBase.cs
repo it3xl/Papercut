@@ -67,7 +67,7 @@ namespace Papercut.Rules
             try
             {
                 _ruleRespository.SaveRules(Rules, RuleFileName);
-                _logger.Information(
+                _logger.Debug(
                     "Saved {RuleCount} to {RuleFileName}",
                     Rules.Count,
                     RuleFileName);
