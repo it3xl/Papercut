@@ -16,9 +16,9 @@ This version of Papercut is used only as a Windows service or as many Windows se
 ## Features
 * Saving of email massages to a configured folder. You can make this folder a shared folder for your team.
 * Messages will be stored in sub-folders dynamically.
-  see MessageRepository.FileSystem.cs > CreateFolder method to change the sub-folder logic.
+  see [MessageRepository.FileSystem.cs](https://github.com/it3xl/Papercut/blob/service-only-usage/src/Papercut.Message/MessageRepository.FileSystem.cs) > CreateFolder method to change the sub-folder logic.
 * Message file name may have different values in a different order.
-  see MessageRepository.FileSystem.cs > CreateUniqueFile method to change the file name generating logic.
+  see [MessageRepository.FileSystem.cs](https://github.com/it3xl/Papercut/blob/service-only-usage/src/Papercut.Message/MessageRepository.FileSystem.cs) > CreateUniqueFile method to change the file name generating logic.
 * You can omit date-time stamp in the message file name (FileInfo.CreationTime will be used).
 * Added configuring of a log files root folder.
 * Changed log file name format to Papercut.Service.SMTPport-YYYYMMdd.log.
