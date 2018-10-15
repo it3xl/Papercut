@@ -1,8 +1,8 @@
 ## This [Papercut](https://github.com/ChangemakerStudios/Papercut) edition is everything your team need to forget about Microsoft Exchange on your development and test environments.
-* See all sent messages as .eml files in sub-folders.
-* Open them in Microsoft Outlook as saved earlier email messages.
+* See all sent messages as .eml files stored dynamically in sub-folders.
+* Open them in Microsoft Outlook as any saved earlier email messages.
 
-### This is a hacked (not cracked) version of 
+### This is a modified version of 
 ![Papercut Logo](https://raw.githubusercontent.com/ChangemakerStudios/Papercut/develop/graphics/PapercutLogo.png)
 The Simple SMTP Desktop Email Receiver
 
@@ -14,12 +14,14 @@ The Simple SMTP Desktop Email Receiver
 This version of Papercut is used only as a Windows service or as many Windows services on the same machine.
 
 ## Features
-* Saving of email massages to a configured folder. You may make this folder a shared folder.
-* Messages will be stored in sub-foders with a name from Sender SMTP header (if not empty). I.e. sender's email address.
-* If you messages have the "Original-Envelope-ID" SMTP header then messages will be stored in sub-folders of the second level with a name from this header.
-* Configuring of log files root folder.
-* New log file format Papercut.Service.SMTPport-YYYYMMdd.log
-* Saved email .eml files have the format YY.MMdd-HH.mm.ssfff Subject_first_letters random.eml
+* Saving of email massages to a configured folder. You can make this folder a shared folder for your team.
+* Messages will be stored in sub-folders dynamically.
+  see MessageRepository.FileSystem.cs > CreateFolder method to change the sub-folder logic.
+* Message file name may have different values in a different order.
+  see MessageRepository.FileSystem.cs > CreateUniqueFile method to change the file name generating logic.
+* You can omit date-time stamp in the message file name (FileInfo.CreationTime will be used).
+* Added configuring of a log files root folder.
+* Changed log file name format to Papercut.Service.SMTPport-YYYYMMdd.log.
 
 ## How To Use
 
@@ -29,8 +31,8 @@ This version of Papercut is used only as a Windows service or as many Windows se
 * Change parameters in the `Papercut.Service.json` and in `Papercut.Service.install-config.bat` files if you wish.
 * In Windows Explorer find the `.install\install.bat` file and from the Context Menu select `Run as administrator`.
 
-If you will change the parameters later you should update the servise by calling `.install\install.bat` through the "Run as administrator".  
-Or just restart this sevice named "Papercut..." from the Windows Services console.
+If you will change the parameters later will have to update the service by calling `.install\install.bat` through the "Run as administrator".  
+Or just restart this service named "Papercut..." from the Windows Services console.
 
 Use `.install\uninstall.bat` to uninstall (unregister) the service.
 

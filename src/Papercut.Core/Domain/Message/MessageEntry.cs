@@ -31,18 +31,6 @@ namespace Papercut.Core.Domain.Message
     /// </summary>
     public class MessageEntry : INotifyPropertyChanged, IEquatable<MessageEntry>, IFile
     {
-        // You can start by using another timestamp format. An example below.
-        public const string DateTimeFormat = "yy.MM.dd-HHmm-ss-fff";
-        // Bug. It is sucks to use FFF instead of fff.
-        // I.e. for 170ms we will get the string 17 and we will be forced to use RegEx dirty coding.
-        //public const string DateTimeFormat = "yyyyMMddHHmmssFFF";
-        //public const string DateTimeFormat = "yyyyMMddHHmmssfff";
-
-
-        //static readonly Regex _nameFormat = new Regex(
-        //    @"^(?<date>\d{17})(\-[A-Z0-9]{6})?\.eml$",
-        //    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         protected readonly FileInfo _info;
 
         protected DateTime? _created;
@@ -51,22 +39,8 @@ namespace Papercut.Core.Domain.Message
 
         public MessageEntry(FileInfo fileInfo)
         {
-            this._info = fileInfo;
-
-            //Match match = _nameFormat.Match(this._info.Name);
-            //if (match.Success)
-            //{
-            //    this._created = DateTime.ParseExact(
-            //        match.Groups["date"].Value,
-            //        "yyyyMMddHHmmssFFF",
-            //        CultureInfo.InvariantCulture);
-            //}
-
-            var dateTimePart = _info.Name.Substring(0, DateTimeFormat.Length);
-            _created = DateTime.ParseExact(
-                dateTimePart,
-                DateTimeFormat,
-                CultureInfo.InvariantCulture);
+            _info = fileInfo;
+            _created = _info.GetCreatedDate();
         }
 
         public MessageEntry(string file)

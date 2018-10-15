@@ -4,8 +4,8 @@
 * Change parameters in the `Papercut.Service.json` and in `Papercut.Service.install-config.bat` files if you wish.
 * In Windows Explorer find the `.install\install.bat` file and from the Context Menu select `Run as administrator`.
 
-If you will change the parameters later you should update the servise by calling `.install\install.bat` through the "Run as administrator".  
-Or just restart this sevice named "Papercut..." from the Windows Services console.
+If you will change the parameters later will have to update the service by calling `.install\install.bat` through the "Run as administrator".  
+Or just restart this service named "Papercut..." from the Windows Services console.
 
 Use `.install\uninstall.bat` to uninstall (unregister) the service.
 
@@ -18,6 +18,9 @@ See another possible installation options
 In Windows Explorer find the `Papercut.Service.exe` file  
 `\src\Papercut.Service\.deploy\Papercut.Service.exe`  
 and from the Context Menu select "Run as administrator".
+
+
+
 
 ### Last Version
 
