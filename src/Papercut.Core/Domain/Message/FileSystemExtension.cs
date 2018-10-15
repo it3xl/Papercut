@@ -15,7 +15,7 @@
                 return hostPath;
 
             var validPrefix = prefix.MakeValidFileNameOrEmpty();
-            if (string.IsNullOrEmpty(validPrefix))
+            if (!string.IsNullOrEmpty(validPrefix))
             {
                 validPrefix += prefixSeparator;
             }
