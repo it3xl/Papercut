@@ -59,7 +59,7 @@ namespace Papercut.Core.Infrastructure.Logging
 #if DEBUG
                                 .MinimumLevel.Verbose()
 #else
-                                .MinimumLevel.Information()
+                                .MinimumLevel.Warning()
 #endif
                                 .Enrich.With<EnvironmentEnricher>()
                                 .Enrich.FromLogContext()
