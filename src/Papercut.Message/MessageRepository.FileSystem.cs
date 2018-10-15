@@ -20,9 +20,9 @@
 
             string GetFileName(bool appendRandom = false)
             {
-                var rootName = $"{toAddress}{subjectPart.Prepend()}{contactId.Prepend()}";
+                var rootName = $"{toAddress}{subjectPart.Prepend()}";
                 var fileName = rootName
-                    .ToFileName(appendRandom);
+                    .ToFileName(contactId, appendRandom);
 
                 return fileName;
             }

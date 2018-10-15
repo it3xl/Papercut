@@ -35,13 +35,13 @@
             //public const string StampFormat = "yyyyMMddHHmmssFFF";
         }
 
-        public static string ToFileName(this string rootName, bool appendRandom = false)
+        public static string ToFileName(this string rootName, string suffix = null, bool appendRandom = false)
         {
             var dateTimeFormatted = DateTime.Now.ToString(FixFileParam.StampFormat);
             var randomPart = appendRandom ? StringHelpers.SmallRandomString() : null;
 
             var fullName =
-                $"{rootName}{FixFileParam.StampPrefix}{dateTimeFormatted}{randomPart.Prepend()}{FixFileParam.FileExtension}";
+                $"{rootName}{FixFileParam.StampPrefix}{dateTimeFormatted}{suffix.Prepend()}{randomPart.Prepend()}{FixFileParam.FileExtension}";
 
             var valid = fullName
                 .MakeValidFileName();
