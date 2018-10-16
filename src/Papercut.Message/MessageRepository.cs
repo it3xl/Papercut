@@ -114,12 +114,12 @@ namespace Papercut.Message
                     .ToList();
         }
 
-        public string SaveMessage(MimeMessage message, Action<FileStream> writeTo)
+        public string SaveMessage(MimeMessage message, Action<FileStream> writeTo, bool suppressSubfolders = false)
         {
             string messagePath = null;
             try
             {
-                using (var fileStream = CreateUniqueFile(message, out messagePath))
+                using (var fileStream = CreateUniqueFile(message, out messagePath, suppressSubfolders))
                 {
                     writeTo(fileStream);
                 }

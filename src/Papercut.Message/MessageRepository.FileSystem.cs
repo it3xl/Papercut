@@ -12,7 +12,7 @@
         public const int SubjectFileNamePartLength = 60;
         public const int SubjectSubfolderNamePartLength = 40;
 
-        private FileStream CreateUniqueFile(MimeMessage message, out string messagePath)
+        private FileStream CreateUniqueFile(MimeMessage message, out string messagePath, bool suppressSubfolders = false)
         {
             var toAddress = message.To.FirstOrDefault()?.ToString();
             var subjectPart = message.Subject.TakeUpTo(SubjectFileNamePartLength);
@@ -28,7 +28,7 @@
             }
 
             FileStream stream;
-            var messageFolder = CreateFolder(message);
+            var messageFolder = CreateFolder(message, suppressSubfolders);
             var filePath = messageFolder.AddPath(GetFileName());
 
             while (!filePath.GetStreamTry(out stream))
@@ -43,17 +43,25 @@
             return stream;
         }
 
-        private string CreateFolder(MimeMessage message)
+        private string CreateFolder(MimeMessage message, bool suppressSubfolders = false)
         {
-            var mailHostPath = _messagePathConfigurator.DefaultSavePath
-                .AddPath(message.Sender?.Address)
+            var hostPath = _messagePathConfigurator.DefaultSavePath;
+
+            if (suppressSubfolders)
+                return hostPath;
+
+            var sender = message.Sender?.Address
+                ?? message.From.FirstOrDefault()?.ToString();
+
+            var mailPath = hostPath
+                .AddPath(sender)
                 .AddPathPrefixed(relativePath: message.Headers["Original-Envelope-ID"],
                     prefix: message.Subject.TakeUpTo(SubjectSubfolderNamePartLength),
                     prefixSeparator: " ");
 
-            Directory.CreateDirectory(mailHostPath);
+            Directory.CreateDirectory(mailPath);
 
-            return mailHostPath;
+            return mailPath;
         }
     }
 }
