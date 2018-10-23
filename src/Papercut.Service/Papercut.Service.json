@@ -3,6 +3,7 @@
     "IP": "Any",
 
     "Port_Description": "## SMTP Server listening Port. Default is 25.",
+    // Also modify "env_smtp_port" in Papercut.Service.install-config.bat
     "Port": "25250",
 
     "MessagePath_Description": "## Path to store email message files.",

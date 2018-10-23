@@ -60,7 +60,7 @@ namespace Papercut.Service
                     s.WhenShutdown(ts => _container.Dispose());
                 });
 
-            x.RunAsLocalSystem();
+            //x.RunAsLocalSystem();
 
             // We will set this values through Command Line Interface https://topshelf.readthedocs.io/en/latest/overview/commandline.html
             //x.SetDescription("Papercut SMTP Backend Service");

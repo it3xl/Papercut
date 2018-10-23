@@ -16,5 +16,4 @@ CALL "%rootPath%\Papercut.Service.exe"^
  uninstall^
  --delayed^
  --sudo^
- --localsystem^
  -servicename:%env_servicename%^
