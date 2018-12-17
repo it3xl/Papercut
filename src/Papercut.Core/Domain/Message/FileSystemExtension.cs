@@ -1,5 +1,6 @@
 ﻿namespace Papercut.Core.Domain.Message
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -134,17 +135,21 @@
             return " " + input;
         }
 
-        public static bool GetStreamTry(this string filePath, out FileStream stream)
+        public static bool GetStreamTry(this string filePath, out FileStream stream, out Exception exception)
         {
             try
             {
                 stream = File.Create(filePath);
 
+                exception = null;
+
                 return true;
             }
-            catch
+            catch(Exception exc)
             {
                 stream = null;
+
+                exception = exc;
 
                 return false;
             }

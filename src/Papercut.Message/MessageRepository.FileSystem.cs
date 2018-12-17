@@ -1,5 +1,7 @@
 ﻿namespace Papercut.Message
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -31,9 +33,9 @@
             var messageFolder = CreateFolder(message, suppressSubfolders);
             var filePath = messageFolder.AddPath(GetFileName());
 
-            while (!filePath.GetStreamTry(out stream))
+            while (!filePath.GetStreamTry(out stream, out var exception))
             {
-                _logger.Error($"Already exists: {filePath}");
+                _logger.Error($"Error: {exception?.Message ?? "Unknown error"}; For: {filePath}");
 
                 filePath = messageFolder.AddPath(GetFileName(appendRandom: true));
             }
@@ -50,11 +52,17 @@
             if (suppressSubfolders)
                 return hostPath;
 
-            var sender = message.Sender?.Address
-                ?? message.From.FirstOrDefault()?.ToString();
+            var folder = message.Sender?.Address;
+            if (string.IsNullOrEmpty(folder))
+            {
+                folder = message.From
+                    .OfType<MailboxAddress>()
+                    .FirstOrDefault()
+                    ?.Address;
+            }
 
             var mailPath = hostPath
-                .AddPath(sender)
+                .AddPath(folder)
                 .AddPathPrefixed(relativePath: message.Headers["Original-Envelope-ID"],
                     prefix: message.Subject.TakeUpTo(SubjectSubfolderNamePartLength),
                     prefixSeparator: " ");
