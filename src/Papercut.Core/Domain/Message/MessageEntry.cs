@@ -40,7 +40,7 @@ namespace Papercut.Core.Domain.Message
         public MessageEntry(FileInfo fileInfo)
         {
             _info = fileInfo;
-            _created = _info.GetCreatedDate();
+            _created = MessagePathAssemblyBase.DateFromName(_info);
         }
 
         public MessageEntry(string file)

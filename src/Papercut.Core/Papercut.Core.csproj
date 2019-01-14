@@ -81,8 +81,7 @@
   <ItemGroup>
     <Compile Include="Domain\Application\ApplicationMeta.cs" />
     <Compile Include="Domain\Application\IAppMeta.cs" />
-    <Compile Include="Domain\Message\FileNameExtension.cs" />
-    <Compile Include="Domain\Message\FileSystemExtension.cs" />
+    <Compile Include="Domain\Message\MessagePathAssemblyBase.cs" />
     <Compile Include="Domain\Paths\IMessagePathConfigurator.cs" />
     <Compile Include="Domain\Paths\IPathTemplatesProvider.cs" />
     <Compile Include="Domain\Paths\MessagePathConfigurator.cs" />

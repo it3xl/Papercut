@@ -20,6 +20,8 @@ namespace Papercut.Message
     using Autofac;
     using Autofac.Core;
 
+    using Core.Domain.Paths;
+
     using Papercut.Core.Domain.Message;
     using Papercut.Core.Infrastructure.Plugins;
 

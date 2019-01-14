@@ -21,19 +21,17 @@ namespace Papercut.Message
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading;
 
     using MimeKit;
 
     using Papercut.Common.Extensions;
-    using Papercut.Common.Helper;
     using Papercut.Core.Domain.Message;
     using Papercut.Core.Domain.Paths;
 
     using Serilog;
 
-    public partial class MessageRepository
+    public class MessageRepository
     {
         public const string MessageFileSearchPattern = "*.eml";
 
@@ -119,7 +117,9 @@ namespace Papercut.Message
             string messagePath = null;
             try
             {
-                using (var fileStream = CreateUniqueFile(message, out messagePath, suppressSubfolders))
+                var pathManager = new MessagePathManager(_logger, _messagePathConfigurator);
+
+                using (var fileStream = pathManager.CreateUniqueFile(message, out messagePath, suppressSubfolders))
                 {
                     writeTo(fileStream);
                 }

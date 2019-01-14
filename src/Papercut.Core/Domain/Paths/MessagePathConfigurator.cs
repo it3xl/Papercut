@@ -15,6 +15,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 namespace Papercut.Core.Domain.Paths
 {
     using System;
@@ -23,6 +24,8 @@ namespace Papercut.Core.Domain.Paths
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
+
+    using Message;
 
     using Papercut.Common.Extensions;
     using Papercut.Common.Helper;
@@ -47,16 +50,17 @@ namespace Papercut.Core.Domain.Paths
         {
             _templateDictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "BaseDirectory", AppDomain.CurrentDomain.BaseDirectory }
+                {"BaseDirectory", AppDomain.CurrentDomain.BaseDirectory}
             };
 
             foreach (
                 Environment.SpecialFolder specialPath in
-                    EnumHelpers.GetEnumList<Environment.SpecialFolder>())
+                EnumHelpers.GetEnumList<Environment.SpecialFolder>())
             {
                 string specialPathName = specialPath.ToString();
 
-                if (!_templateDictionary.ContainsKey(specialPathName)) _templateDictionary.Add(specialPathName, Environment.GetFolderPath(specialPath));
+                if (!_templateDictionary.ContainsKey(specialPathName))
+                    _templateDictionary.Add(specialPathName, Environment.GetFolderPath(specialPath));
             }
         }
 
@@ -81,20 +85,30 @@ namespace Papercut.Core.Domain.Paths
 
         public string DefaultSavePath
         {
-            get
+            get => _defaultSavePath;
+            private set
             {
-                if (!Directory.Exists(this._defaultSavePath))
+                var newValue = value;
+                if (MessagePathAssemblyBase.FoldersMaxLength < newValue.Length)
                 {
-                    this._logger.Information(
+                    throw new ApplicationException(
+                        $@"You must use DefaultSavePath shorter then {MessagePathAssemblyBase.FoldersMaxLength} characters.
+Set an appropriate path in ""MessagePath"" configuration parameter or change Papercut location to a shorter path.
+We do not use long Windows paths yet.");
+                }
+
+                _defaultSavePath = value;
+
+
+                if (!Directory.Exists(_defaultSavePath))
+                {
+                    _logger.Information(
                         "Creating Default Message Save Path {DefaultSavePath} because it does not exist",
                         this._defaultSavePath);
 
-                    Directory.CreateDirectory(this._defaultSavePath);
+                    Directory.CreateDirectory(_defaultSavePath);
                 }
-
-                return this._defaultSavePath;
             }
-            private set { this._defaultSavePath = value; }
         }
 
         public IEnumerable<string> LoadPaths { get; private set; }

@@ -78,8 +78,9 @@
   <ItemGroup>
     <Compile Include="Helpers\MessageHelper.cs" />
     <Compile Include="Helpers\MimeMessageLoaderExtensions.cs" />
+    <Compile Include="MessagePathAssembly.cs" />
+    <Compile Include="MessagePathManager.cs" />
     <Compile Include="MessageRepository.cs" />
-    <Compile Include="MessageRepository.FileSystem.cs" />
     <Compile Include="MessageRepositoryExtensions.cs" />
     <Compile Include="MessageWatcher.cs" />
     <Compile Include="MimeMessageLoader.cs" />

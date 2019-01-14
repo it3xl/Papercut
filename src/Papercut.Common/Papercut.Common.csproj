@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\IEventHandler.cs" />
+    <Compile Include="Extensions\PathExtension.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Helper\EnumHelpers.cs" />
     <Compile Include="Helper\AssemblyHelper.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
