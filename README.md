@@ -1,4 +1,4 @@
-## My edition of [Papercut](https://github.com/ChangemakerStudios/Papercut) here is everything your team need to forget about Microsoft Exchange on your development and test environments.
+## My edition of [Papercut](https://github.com/ChangemakerStudios/Papercut) here is everything my development teams need to forget about Microsoft Exchange on your development and test environments.
 * See all sent messages as .eml files stored dynamically in sub-folders.
 * Open them in Microsoft Outlook as any saved earlier email messages.
 
