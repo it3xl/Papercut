@@ -2,7 +2,7 @@
 * See all sent messages as .eml files stored dynamically in sub-folders.
 * Open them in Microsoft Outlook as any saved earlier email messages.
 
-### This is a modified version of 
+### This is a modified version of Papercut project
 ![Papercut Logo](https://raw.githubusercontent.com/ChangemakerStudios/Papercut/develop/graphics/PapercutLogo.png)
 The Simple SMTP Desktop Email Receiver
 
