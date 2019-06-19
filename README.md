@@ -47,6 +47,14 @@ Or restart the service named like "Papercut..." from the Windows Services consol
 
 Use `.install\uninstall.bat` to uninstall (unregister) the service.
 
+**Troubleshooting**
+
+For troubleshooting open the appropriate `.install\install.XXX.bat` file from the above "Running" instructions.<br/>
+At the end of it add `PAUSE` CMD command and rerun it.<br/>
+See errors in the appeared console window.
+
+Contact me, I'll do my best to help.
+
 **Other options**
 
 See another possible installation options
