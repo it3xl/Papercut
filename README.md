@@ -23,12 +23,25 @@ This version of Papercut is used only as a Windows service or as many Windows se
 
 ### How to Install Papercut.Service as a Windows Service
 
+**Deployment**
+
 * Copy all content of the `\src\Papercut.Service\.deploy\` folder to desired installation location.
 * Change parameters in the `Papercut.Service.json` and in `Papercut.Service.install-config.bat` files if you wish.
-* In Windows Explorer find the `.install\install.bat` file and from the Context Menu select `Run as administrator`.
 
-If you will change the parameters later will have to update the service by calling `.install\install.bat` through the "Run as administrator".  
-Or just restart this service named "Papercut..." from the Windows Services console.
+**Running under Local System account**
+
+* In Windows Explorer find the `.install\install.localsystem.bat` file and from the Context Menu select `Run as administrator`.
+
+**Running under Network Service account**
+
+* Open file `Papercut.Service.json` and find all path parameters (like MessagePath and LogPath).<br/>
+You should give the NETWORK SERVICE local account "Full control" access rights on all this paths.
+* In Windows Explorer find the `.install\install.networkservice.bat` file and from the Context Menu select `Run as administrator`.
+
+**Updating configuration parameters**
+
+If you will change any configurating parameters then simply repeat the **Running** operations described above.<br/>
+Or restart the service named like "Papercut..." from the Windows Services console.
 
 Use `.install\uninstall.bat` to uninstall (unregister) the service.
 
