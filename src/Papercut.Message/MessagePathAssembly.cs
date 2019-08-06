@@ -24,12 +24,16 @@ namespace Papercut.Message
                 throw new ArgumentException($"The path must be rooted: {root}", nameof(root));
             if (string.IsNullOrWhiteSpace(root))
                 throw new ArgumentNullException(nameof(root));
+
             if(FoldersMaxLength < root.Length)
                 throw new ArgumentOutOfRangeException(nameof(root));
 
+            // It is important to prevent spaces as .NET crashes on trailing white spaces and creates leading ones during folder creation.
+            var trimmed = root.Trim();
+
             var notEndedRoot = 
                 // Normalizes a path and prevents multiple slashes.
-                Path.GetFullPath(root);
+                Path.GetFullPath(trimmed);
 
             // Removes a trailing slashes.
             if (notEndedRoot.EndsWith(Path.DirectorySeparatorChar.ToString())
@@ -47,13 +51,17 @@ namespace Papercut.Message
             if (_ignoreFolders)
                 return false;
 
-             if (string.IsNullOrWhiteSpace(folder))
-                return false;
-
             if (FoldersMaxLength < Host.Length + ShortestFolderNameLength)
                 return false;
 
-            var valid = folder.ValidPathPart();
+             if (string.IsNullOrWhiteSpace(folder))
+                return false;
+
+            var trimmed = folder.Trim();
+
+            var valid = trimmed.ValidPathPart();
+
+            // Warning! Path.Combine doesn't removes leading and trailing white spaces.
             Host = Path.Combine(Host, valid);
 
             if(FoldersMaxLength < Host.Length)
@@ -67,7 +75,8 @@ namespace Papercut.Message
             if (string.IsNullOrWhiteSpace(part))
                 return;
 
-            var valid = part.ValidPathPart();
+            var trimmed = part.Trim();
+            var valid = trimmed.ValidPathPart();
             _namePartsBeforeDate.Add(valid);
         }
 
@@ -76,7 +85,8 @@ namespace Papercut.Message
             if (string.IsNullOrWhiteSpace(part))
                 return;
 
-            var valid = part.ValidPathPart();
+            var trimmed = part.Trim();
+            var valid = trimmed.ValidPathPart();
             _namePartsAfterDate.Add(valid);
         }
 

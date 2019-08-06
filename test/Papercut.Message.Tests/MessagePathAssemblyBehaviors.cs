@@ -52,7 +52,7 @@
         [TestMethod]
         public void AddsFolder()
         {
-            var folderName = "1234567890";
+            const string folderName = "1234567890";
 
             var a = new MessagePathAssembly(RootPath);
             Assert.IsTrue(a.AddFolder(folderName));
@@ -76,6 +76,46 @@
             Assert.IsTrue(a.AddFolder(thirdFolder));
 
             var expectedPath = Path.Combine(RootPath, firstFolder, secondFolder, thirdFolder);
+            Assert.AreEqual(expectedPath, a.Host);
+
+            a.CreateDirectory();
+        }
+
+        [TestMethod]
+        public void TrimsWhiteSpacesInFolderName()
+        {
+            const string folderName = " 1234567890 ";
+
+            var a = new MessagePathAssembly(RootPath);
+            Assert.IsTrue(a.AddFolder(folderName));
+
+            var wrongPath = Path.Combine(RootPath, folderName);
+            var wrongDir = Directory.CreateDirectory(wrongPath);
+            var leadingSpaceFolderPath = Path.Combine(RootPath, folderName.TrimEnd());
+            Assert.AreEqual(leadingSpaceFolderPath, wrongDir.FullName);
+
+            var expectedPath = Path.Combine(RootPath, folderName.Trim());
+            Assert.AreEqual(expectedPath, a.Host);
+
+            a.CreateDirectory();
+        }
+
+        [TestMethod]
+        public void IgnoresWhiteSpacesInFolderNames()
+        {
+            const string firstFolder = "1234567890 ";
+            const string secondFolder = " 2234567890 ";
+            const string thirdFolder = " 3234567890";
+
+            var a = new MessagePathAssembly(RootPath);
+            Assert.IsTrue(a.AddFolder(firstFolder));
+            Assert.IsTrue(a.AddFolder(secondFolder));
+            Assert.IsTrue(a.AddFolder(thirdFolder));
+
+            var wrongPath = Path.Combine(RootPath, firstFolder, secondFolder, thirdFolder);
+            Assert.ThrowsException<DirectoryNotFoundException>(() => Directory.CreateDirectory(wrongPath));
+
+            var expectedPath = Path.Combine(RootPath, firstFolder.Trim(), secondFolder.Trim(), thirdFolder.Trim());
             Assert.AreEqual(expectedPath, a.Host);
 
             a.CreateDirectory();
@@ -200,8 +240,38 @@
 
             var randomFilePath = a.GenerateFilePath(true);
 
-            Assert.IsTrue(randomFilePath.Contains("before a date"));
-            Assert.IsTrue(randomFilePath.Contains("after a date"));
+            Assert.IsTrue(randomFilePath.Contains("Some name before a date"));
+            Assert.IsTrue(randomFilePath.Contains("Some name after a date"));
+
+            File.Create(randomFilePath)
+                .Close();
+        }
+
+        [TestMethod]
+        public void FileNamePartsWithWhitespaces()
+        {
+            var a = new MessagePathAssembly(RootPath);
+            Assert.IsTrue(a.AddFolder("folder 1"));
+            Assert.IsTrue(a.AddFolder("folder 2"));
+
+            a.NamePartBeforeDate(" Some ");
+            a.NamePartBeforeDate(" name");
+            a.NamePartBeforeDate("before ");
+            a.NamePartBeforeDate(" a date ");
+
+            a.NamePartAfterDate(" Some ");
+            a.NamePartAfterDate("name ");
+            a.NamePartAfterDate(" after");
+            a.NamePartAfterDate(" a date ");
+
+            var filePath = a.GenerateFilePath();
+            File.Create(filePath)
+                .Close();
+
+            var randomFilePath = a.GenerateFilePath(true);
+
+            Assert.IsTrue(randomFilePath.Contains("Some name before a date"));
+            Assert.IsTrue(randomFilePath.Contains("Some name after a date"));
 
             File.Create(randomFilePath)
                 .Close();

@@ -1,10 +1,16 @@
 ﻿namespace Papercut.Message
 {
+    using System;
     using System.IO;
     using System.Linq;
+
     using Common.Extensions;
+
+    using Core.Domain.Message;
     using Core.Domain.Paths;
+
     using MimeKit;
+
     using Serilog;
 
     public class MessagePathManager
@@ -24,13 +30,29 @@
 
         public FileStream CreateUniqueFile(MimeMessage message, out string messagePath, bool suppressSubfolders = false)
         {
+            const int suspiciousCrashesAfter = 10;
+            var crashCount = 0;
+
             var path = BuildPath(message, suppressSubfolders);
 
             FileStream stream;
             var filePath = path.GenerateFilePath();
             while (!filePath.FileStreamTry(out stream, out var exception))
             {
-                _logger.Error($"Error: {exception?.Message ?? "Unknown error"}; For: {filePath}");
+                crashCount++;
+                if (suspiciousCrashesAfter <= crashCount)
+                {
+                    var messageToFriend = @"Ask ""it aT it3xl.ru"" to fix it!";
+                    _logger.Fatal(exception, messageToFriend);
+
+                    // it3xl.ru: I've decided to see logs more often then have suffocated servers.
+                    throw new Exception(messageToFriend, exception);
+
+                    // To prevent suffocation of your machine.
+                    //TaskExtension.Delay(TimeSpan.FromMilliseconds(300));
+                }
+
+                _logger.Error($"Error: {exception?.ToString() ?? "Unknown error"}; For: {filePath}");
 
                 filePath = path.GenerateFilePath(appendRandom: true);
             }

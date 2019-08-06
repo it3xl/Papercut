@@ -5,7 +5,6 @@
     using System.IO;
 
     using Common.Extensions;
-    using Common.Helper;
 
     /// <summary>
     /// You must delete all existing email files if you change any parameters of this class!
@@ -32,6 +31,10 @@
         //public const string StampFormat = "yyyyMMddHHmmssFFF";
         protected const string StampFormat = "yy.MM.dd-HHmm-ss-fff";
 
+        /// <summary>
+        /// 260 - 1 (invisible terminating null character for the current system codepage)
+        /// https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+        /// </summary>
         public const int WindowsMaxPathFoldersFile = 259;
         private const int WindowsMaxPathFolders = 247;
 
